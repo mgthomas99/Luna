@@ -1,0 +1,25 @@
+
+import "lib/luna/lang/Runtime.luna"
+import "lib/luna/math/Math.luna"
+
+class "OS" {
+
+  static = {
+
+    __rt = Runtime.getRuntime(),
+
+    time = function()
+      local run_time = OS.__rt.getTime()
+
+      local second = os.time()
+      local ms = run_time - Math.floor(run_time)
+      return (second + ms) * 1000
+    end
+
+  }
+
+}
+
+export {
+  OS = OS
+}

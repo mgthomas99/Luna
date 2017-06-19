@@ -1,0 +1,16 @@
+
+rawclass "Object" {
+
+	new = function(self)
+
+	end,
+
+	equals = function(self, obj)
+		return self == obj
+	end,
+
+	toString = function(self)
+		return tostring(self)
+	end
+
+}

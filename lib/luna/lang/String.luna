@@ -1,0 +1,52 @@
+
+--[[
+  [Doc]
+  Immutable character sequence.
+--]]
+class "String" {
+
+  static = {
+    isString = function(any)
+      return type(any) == "string"
+    end,
+
+    parse = function(any)
+      if (LUNA.Object.String.isString(any)) then
+        return any
+      end
+      return ""
+    end
+  },
+
+  new = function(self, value)
+    self.__value = LUNA.Object.String.parse(value)
+  end,
+
+  substring = function(self, a, b)
+    local value = self.__value
+    b = b or value:len()
+
+    return new(LUNA.Object.String, value:sub(a, b))
+  end,
+
+  toLowerCase = function(self)
+    return new(LUNA.Object.String, self.__value:lower())
+  end,
+
+  toUpperCase = function(self)
+    return new(LUNA.Object.String, self.__value:upper())
+  end,
+
+  toString = function(self)
+    return self.__value
+  end,
+
+  getLength = function(self)
+    return self.__value:len()
+  end
+
+}
+
+export {
+  String = String
+}

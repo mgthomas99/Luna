@@ -1,0 +1,30 @@
+--[[
+  This example demonstrates the Luna Math library
+  functionality.
+]]
+
+import "lib/luna/math/Math.luna"
+import "lib/luna/math/Random.luna"
+
+write("Please enter a number: ")
+local x = Number.parse(read())
+
+--[[
+  Let's make a call to some common math functions.
+]]
+print("sin(" .. x .. ") = " .. Math.sin(x))
+print("cos(" .. x .. ") = " .. Math.cos(x))
+print("tan(" .. x .. ") = " .. Math.tan(x))
+print()
+
+--[[
+  Let's create a new Random object and give it the
+  seed '100'. By giving the object a seed, we can
+  guarantee that it will produce the same 'random'
+  numbers (and in the same order) every time we
+  run our application.
+]]
+print("Here, have some random numbers (where the seed is your number!): ")
+local my_random = new(Random, x)
+print("\t" .. my_random:next())
+print("\t" .. my_random:next())

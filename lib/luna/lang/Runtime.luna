@@ -1,0 +1,46 @@
+
+import "lib/luna/math/Math.luna"
+
+class "Runtime" {
+
+  static = {
+    getRuntime = function()
+      return Runtime.__instance
+    end
+  },
+
+  new = function(self)
+    self.name = Math.random()
+  end,
+
+  read = function(self)
+    return io.read()
+  end,
+
+  print = function(self, obj)
+    self:write(obj)
+    self:write("\n")
+  end,
+
+  write = function(self, obj)
+    local obj_type = type(obj)
+    if (obj_type == "string") then
+      io.write(obj)
+    elseif (obj_type == "table") then
+      io.write(obj:toString())
+    else
+      io.write(tostring(obj))
+    end
+  end,
+
+  getTime = function(self)
+    return os.clock()
+  end
+
+}
+
+Runtime.__instance = new(Runtime)
+
+export {
+  Runtime = Runtime
+}
