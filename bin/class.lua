@@ -1,4 +1,31 @@
 
+--[[
+  API for creating classes from Lua tables, and instantiating
+  them to produce Objects.
+
+  A class can be created using the API call
+      local Class = require("class")
+      local my_class = Class.create("MyClass", {
+        -- class properties
+      })
+  where '-- class properties' is replaced with the
+  properties of the class. The table passed to the
+  `Class.create` function is called a 'template' - it
+  is an unprocessed table that cannot yet be instantiated.
+
+  When the template is sent to the `Class.create()`
+  function, it is processed and transformed into a
+  class - a table that can be sent to the `Class.instantiate()`
+  function to be instantiated.
+
+  A class table contains all of the static properties
+  that were defined in the template's 'static' table
+  as first-level properties, as well as a table called
+  'prototype' which contains all of the properties that
+  should be cloned and applied to every instance of the
+  class. Luna inherits JavaScript's prototype-based
+  class system.
+]]
 local Class = {}
 
 --[[
@@ -37,9 +64,6 @@ local Class = {}
 ]]
 function Class.create(identifier, template)
   local class = {
-    meta = {
-      template = template
-    },
     name = identifier,
     prototype = {
       toString = function(self)
@@ -61,7 +85,6 @@ function Class.create(identifier, template)
   for k,v in pairs(template) do
     class.prototype[k] = v
   end
-
   return class
 end
 
@@ -75,13 +98,12 @@ function Class.instantiate(class, ...)
     return error("Cannot instantiate class without constructor!")
   end
 
-  local instance = {
-    meta = {
-      class = class
-    }
-  }
+  local instance = {}
   for k,v in pairs(class.prototype) do
     instance[k] = v
+  end
+  instance.getClass = function(self)
+    return self.__meta.class
   end
 
   instance:new(...)
