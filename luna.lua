@@ -1,11 +1,15 @@
-
-package.path = package.path .. ";" .. (arg[1]:match("(.*\\)")) .. "?.lua"
+--[[
+  Set Lua 'require' and 'dofile' path index locations so that Lua can find
+  nearby library files.
+]]
+package.path = package.path .. ";" .. (arg[1]:match("(.*[\\|/])")) .. "?.lua"
 
 local Class = require("bin/class")
 local FS = require("bin/fs")
 local Imports = require("bin/import")
 local Stack = require("bin/stack")
 local Test = require("test/test")
+
 Stack.push({
 
   LUNA = {
