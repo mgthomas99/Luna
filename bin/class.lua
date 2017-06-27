@@ -23,8 +23,10 @@
   as first-level properties, as well as a table called
   'prototype' which contains all of the properties that
   should be cloned and applied to every instance of the
-  class. Luna inherits JavaScript's prototype-based
-  class system.
+  class.
+
+  Luna's class/object system is very similar to
+  JavaScript's prototype-based object system.
 ]]
 local Class = {}
 
@@ -32,35 +34,14 @@ local Class = {}
   Creates a new class from the identifier and template
   provided.
 
-  The 'identifier' argument is simply a string containing
-  the name of the class. Try to use a unique identifier
-  for every call to this function so that no two classes
-  have the same name.
-
-  The 'template' argument is a table that defines what
-  the class should include. The template table is used
-  to construct a class and the class' prototype. It
-  should be formatted like so:
-
-  template = {
-    static = {
-      -- Here goes all of the static values for
-      -- this class.
-    },
-
-    new = function(self, ...)
-      -- The class' constructor. This is an optional
-      -- field. Not including a constructor means
-      -- the class may not be instantiated.
-    end,
-
-    -- All of the prototype values should be added
-    -- here.
-  }
-
   This function, assuming no error occurs, will
   return a class (table) that can be sent to the
   `instantiate` function to be instantiated.
+
+  @param  identifier
+          The name of the class.
+  @param  template
+          The class template (or definition).
 ]]
 function Class.create(identifier, template)
   local class = {
@@ -80,7 +61,7 @@ function Class.create(identifier, template)
     for k,v in pairs(template.static) do
       class[k] = v
     end
-    template.static = {}
+    template.static = nil
   end
   for k,v in pairs(template) do
     class.prototype[k] = v
@@ -92,9 +73,16 @@ end
   Returns a new instance of the class provided,
   using the function call's varargs to invoke the
   class' constructor.
+
+  If the class has no constructor, an error is
+  thrown.
 ]]
 function Class.instantiate(class, ...)
-  if (class.prototype.new == nil) then
+  if ((class == nil) or (type(class) ~= "table")) then
+    return error("Attempted to instantiate non-class!")
+  elseif (class.prototype == nil) then
+    return error("Attempted to instantiate non-class!")
+  elseif (class.prototype.constructor == nil) then
     return error("Cannot instantiate class without constructor!")
   end
 
@@ -106,7 +94,7 @@ function Class.instantiate(class, ...)
     return self.__meta.class
   end
 
-  instance:new(...)
+  instance:constructor(...)
   return instance
 end
 

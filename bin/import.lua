@@ -1,5 +1,4 @@
 local FS = require("bin/fs")
-local Stack = require("bin/stack")
 local String = require("bin/string")
 
 local Imports = {
@@ -55,14 +54,14 @@ function Imports.import(path)
   local potential_absolute_paths = Imports.get_potential_import_paths(path)
   for i,v in ipairs(potential_absolute_paths) do
     if (FS.exists(v)) then
-      local layer = Stack.push({})
-      table.insert(Imports, path)
-      local imported = dofile(v)
-      Stack.pop()
+      table.insert(Imports, {
+        uri = path,
+        body = dofile(v)
+      })
       return imported
     end
   end
-  return error("Error locating file '" .. path .. "'\nAttempted look-up at:\n" .. ( (function()local i="";for k,v in pairs(potential_absolute_paths)do i=i.."\t"..v.."\n" end return i end)() ))
+  return error("Error locating file '" .. path .. "'")
 end
 
 return Imports
