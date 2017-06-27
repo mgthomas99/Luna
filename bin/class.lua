@@ -78,7 +78,11 @@ end
   thrown.
 ]]
 function Class.instantiate(class, ...)
-  if (class.prototype.constructor == nil) then
+  if ((class == nil) or (type(class) ~= "table")) then
+    return error("Attempted to instantiate non-class!")
+  elseif (class.prototype == nil) then
+    return error("Attempted to instantiate non-class!")
+  elseif (class.prototype.constructor == nil) then
     return error("Cannot instantiate class without constructor!")
   end
 
