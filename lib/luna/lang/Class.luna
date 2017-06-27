@@ -1,6 +1,6 @@
 import "lib/luna/lang/Object.luna"
 
-rawclass "Class" {
+class "Class" {
 
   __prototype = {},
 

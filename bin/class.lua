@@ -90,6 +90,9 @@ function Class.instantiate(class, ...)
   for k,v in pairs(class.prototype) do
     instance[k] = v
   end
+  instance.getClass = function(self)
+    return self.__meta.class
+  end
 
   instance:constructor(...)
   return instance
