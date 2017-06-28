@@ -13,7 +13,7 @@ function FS.exists(path)
   end
 end
 
-function FS.close(stream, operation)
+function FS.close(stream)
   io.close(stream)
 end
 

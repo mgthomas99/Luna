@@ -1,22 +1,21 @@
 
-import "lib/luna/lang/Number.luna"
-
 class "Account" {
 
   --[[
-    The 'new' function is the class' constructor. Whenever
-    a new instance of this class is created, its 'new'
-    function is immediately called. The 'self' argument is
-    the instance of the class.
+    The class' constructor. Whenever a new instance of
+    a class is created, its 'constructor' function is
+    immediately called. The 'self' argument is the
+    instance of the class.
 
     Any arguments besides `self` are provided from the
-    varargs to the `new` call. For example, invoking
+    varargs to the `constructor` call. For example,
+    invoking
         new(Account, 100)
     will create a new instance of the `Account` class
-    and call the instance's `new` function, passing the
+    and call the instance's constructor, passing the
     instance as well as the value `100` as arguments.
   ]]
-  new = function(self, balance)
+  constructor = function(self, balance)
     -- By convention, prefix hidden variables with two
     -- underscores '__' so developers know not to use
     -- them!

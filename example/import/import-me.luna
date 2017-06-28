@@ -1,7 +1,7 @@
 
 class "MyImportantClass" {
 
-  new = function(self, value)
+  constructor = function(self, value)
     self.__value = value
   end,
 
@@ -11,6 +11,4 @@ class "MyImportantClass" {
 
 }
 
-export {
-  MyImportantClass = MyImportantClass
-}
+export { MyImportantClass = MyImportantClass }
