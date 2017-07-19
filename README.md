@@ -4,12 +4,13 @@
 Lua OOP framework. Luna allows you to write classes and instantiate objects using familiar
 syntax from other popular object-oriented languages such as Java and JavaScript.
 
-There are some Luna examples in the `example` folder.
-
-# Executing a Luna script
-- [Install Lua](https://www.lua.org/download.html)
-- Install Luna somewhere, and remember the absolute path of the `luna.lua` file.
-- In the command prompt (or shell), use the command `lua -- luna.lua ["path" [, arg1, arg2, ..., argN]]`.
+# Using
+To use Luna, reference it from your Lua script using the following code:
+```
+	package.path = package.path .. ";" .. "path/to/lib/folder"
+	Luna = require("Luna/luna")
+```
+See `examples/importing-luna` for an example.
 
 # Credit
 Icons made by [Pixel perfect](http://www.flaticon.com/authors/pixel-perfect) from
