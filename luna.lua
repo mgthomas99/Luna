@@ -33,6 +33,9 @@ Luna = {
     This function can be invoked in one of three ways:
       `Luna.class({ ... })`
         Creates an anonymous class.
+      `Luna.class(Bar, { ... })`
+        Creates an anonymous class which is a subclass of
+        class `Bar`.
       `Luna.class("Foo", { ... })`
         Creates a named class, "Foo".
       `Luna.class("Foo", Bar, { ... })
@@ -45,6 +48,9 @@ Luna = {
     elseif (type(identifier) == "string" and type(super) == "table") then
       template = super
       super = nil
+    elseif (type(identifier) == "table" and type(super) == "table") then
+      template = super
+      super = identifier
     elseif (type(identifier) == "table") then
       template = identifier
       identifier = nil
