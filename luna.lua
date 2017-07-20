@@ -1,11 +1,12 @@
 
+local Class = require("Luna/bin/class")
+local Interface = require("Luna/bin/interface")
+
 --[[
   Table containing all core Luna functions.
 --]]
 local Luna = {}
 Luna = {
-
-  Class = require("Luna/bin/class"),
 
   --[[
     Copies the Luna function table into the global scope.
@@ -62,6 +63,32 @@ Luna = {
     end
 
     return Luna.Class.create(identifier, super, template)
+  end,
+
+  implement = function(class, interface)
+    return Luna.Class.implement(class, interface)
+  end,
+
+  interface = function(identifier, super, template)
+    if (type(identifier) == "string" and type(super) == "table" and type(template) == "table") then
+      -- Everything's good!
+    elseif (type(identifier) == "string" and type(super) == "table") then
+      template = super
+      super = nil
+    elseif (type(identifier) == "table" and type(super) == "table") then
+      template = super
+      super = identifier
+    elseif (type(identifier) == "table") then
+      template = identifier
+      identifier = nil
+    else
+      return error([[Unknown parameters! Expected one of the following:
+        interface( template )
+        interface( "identifier", template )
+        interface( "identifier", superclass, template )]])
+    end
+
+    return Luna.Interface.create(identifier, super, template)
   end,
 
   --[[
