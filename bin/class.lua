@@ -51,11 +51,7 @@ function Class.create(identifier, super, template)
     name = identifier,
     prototype = {
       toString = function(self)
-        local str = identifier
-        for k,v in pairs(template) do
-          str = str .. "\n\t" .. k .. " = " .. "[" .. type(v) .. "]"
-        end
-        return str
+        return "[Object " .. tostring(self) .. "]"
       end
     }
   }
