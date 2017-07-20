@@ -1,5 +1,9 @@
 
-class "Account" {
+package.path = package.path .. ";./../../../?.lua"
+Luna = require("Luna/luna")
+Luna.introduce()
+
+local Account = class {
 
   --[[
     The class' constructor. Whenever a new instance of

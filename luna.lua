@@ -1,62 +1,78 @@
 
 --[[
-  Set Lua 'require' and 'dofile' path index locations so that Lua can find
-  nearby library files.
-]]
-package.path = package.path .. ";" .. (arg[1]:match("(.*[\\|/])")) .. "?.lua"
+  Table containing all core Luna functions.
+--]]
+local Luna = {}
+Luna = {
 
-local Class = require("bin/class")
-local FS = require("bin/fs")
-local Imports = require("bin/import")
+  Class = require("Luna/bin/class"),
 
-  export = function(exports)
-    if (type(exports) ~= "table") then
-      return error("Expected table!")
+  --[[
+    Copies the Luna function table into the global scope.
+  ]]
+  globalise = function()
+    _G["Luna"] = Luna
+  end,
+
+  --[[
+    Copies all properties of the Luna table into the global
+    scope.
+  --]]
+  introduce = function()
+    for k,v in pairs(Luna) do
+      if (k ~= "introduce") then
+        _G[k] = v
+      end
+    end
+  end,
+
+  --[[
+    Creates a new class which is a subclass of `super`. The
+    `template` is used to create the class.
+
+    This function can be invoked in one of three ways:
+      `Luna.class({ ... })`
+        Creates an anonymous class.
+      `Luna.class(Bar, { ... })`
+        Creates an anonymous class which is a subclass of
+        class `Bar`.
+      `Luna.class("Foo", { ... })`
+        Creates a named class, "Foo".
+      `Luna.class("Foo", Bar, { ... })
+        Creates a named class, "Foo", which is a subclass of
+        the class `Bar`.
+  ]]
+  class = function(identifier, super, template)
+    if (type(identifier) == "string" and type(super) == "table" and type(template) == "table") then
+      -- Everything's good!
+    elseif (type(identifier) == "string" and type(super) == "table") then
+      template = super
+      super = nil
+    elseif (type(identifier) == "table" and type(super) == "table") then
+      template = super
+      super = identifier
+    elseif (type(identifier) == "table") then
+      template = identifier
+      identifier = nil
+    else
+      return error([[Unknown parameters! Expected one of the following:
+        class( template )
+        class( "identifier", template )
+        class( "identifier", superclass, template )]])
     end
 
-    for k,v in pairs(exports) do
-      _G[k] = v
-    end
-  end
+    return Luna.Class.create(identifier, super, template)
+  end,
 
-  import = function(path)
-    Imports.import(path)
-  end
-
-  class = function(identifier)
-    if ((identifier == nil) or (type(identifier) ~= "string")) then
-      return error("Anonymous classes not yet supported!")
-    end
-
-    return function(prototype)
-      local class = Class.create(identifier, prototype)
-      _G[identifier] = class
-      return class
-    end
-  end
-
+  --[[
+    Instantiates the specified class using the constructor
+    parameters provided.
+  ]]
   new = function(class, ...)
-    local instance = Class.instantiate(class, ...)
+    local instance = Luna.Class.instantiate(class, ...)
     return instance
   end
 
---[[
-  True entry point of the application. Execute
-  code in an anonymous function to avoid local
-  variables being declared in the global scope.
-  The exit code is returned.
---]]
-return (function(args)
-    LUNA = {}
-    if (#args > 0) then
-      LUNA.meta = {
-        absolute_path = arg[0],
-        directory = FS.get_directory(arg[0])
-      }
-      LUNA.script = {
-        absolute_path = args[1],
-        directory = FS.get_directory(args[1])
-      }
-      import(LUNA.script.absolute_path)
-    end
-end)({...})
+}
+
+return Luna

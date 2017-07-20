@@ -9,12 +9,8 @@ indent_style = tab
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.dom]
-indent_size = 2
-indent_style = space
-
-[*.{sol,luna}]
-indent_size = 2
+[*.luna]
+indent_size = 4
 indent_style = space
 
 [*.lua]
