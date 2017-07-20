@@ -1,4 +1,4 @@
-![Luna Framework](https://raw.githubusercontent.com/mgthomas99/Luna/oo/icon256.png)
+![Luna Framework](https://raw.githubusercontent.com/mgthomas99/Luna/master/icon256.png)
 
 # Luna
 Lua OOP framework. Luna allows you to write classes and instantiate objects using familiar
