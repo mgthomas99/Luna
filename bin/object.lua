@@ -1,6 +1,8 @@
 
 local Object = {
   assign = function(target, properties)
+    target = target or {}
+    properties = properties or {}
     for k,v in pairs(properties) do
       target[k] = v
     end
