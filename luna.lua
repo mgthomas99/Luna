@@ -62,11 +62,11 @@ Luna = {
         class( "identifier", superclass, template )]])
     end
 
-    return Luna.Class.create(identifier, super, template)
+    return Class.create(identifier, super, template)
   end,
 
   implement = function(class, interface)
-    return Luna.Class.implement(class, interface)
+    return Class.implement(class, interface)
   end,
 
   interface = function(identifier, super, template)
@@ -88,7 +88,7 @@ Luna = {
         interface( "identifier", superclass, template )]])
     end
 
-    return Luna.Interface.create(identifier, super, template)
+    return Interface.create(identifier, super, template)
   end,
 
   --[[
@@ -96,7 +96,7 @@ Luna = {
     parameters provided.
   ]]
   new = function(class, ...)
-    local instance = Luna.Class.instantiate(class, ...)
+    local instance = Class.instantiate(class, ...)
     return instance
   end
 
