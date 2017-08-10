@@ -76,6 +76,27 @@ function Class.create(identifier, super, template)
   return class
 end
 
+function Class.implements(class, interface)
+  for k,v in pairs(interface) do
+    if (type(class[k]) ~= v) then
+      return error("Incompatible types: interface " ..
+          "defines property '" .. k .. "' as type " ..
+          v .. " but it is implemented as type " .. type(class[k]) .. "!")
+    end
+  end
+  return true
+end
+
+function Class.implement(class, ...)
+  local interfaces = { ... }
+  for i=1, #interfaces do
+    local interface = interfaces[i]
+    if (not Class.implements(class, interface)) then
+      return error("Class " .. (class.name or "") .. "incorrectly implements interface!")
+    end
+  end
+end
+
 --[[
   Returns a new instance of the class provided,
   using the function call's varargs to invoke the
