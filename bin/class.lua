@@ -95,6 +95,8 @@ function Class.instantiate(class, ...)
 
   local instance = Object.new()
   Object.assign(instance, class.prototype)
+  setmetatable(instance, getmetatable(class.prototype))
+
   instance:constructor(...)
   return instance
 end
