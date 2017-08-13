@@ -5,7 +5,7 @@ local Interface = require("Luna/bin/interface")
 --[[
   Table containing all core Luna functions.
 --]]
-local Luna = {}
+Luna = {}
 Luna = {
 
   Utils = {
@@ -124,6 +124,10 @@ Luna = {
   new = function(class, ...)
     local instance = Class.instantiate(class, ...)
     return instance
+  end,
+
+  is_class = function(obj)
+    return Class.is_class(obj)
   end
 
 }
