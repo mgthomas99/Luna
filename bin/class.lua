@@ -67,6 +67,11 @@ function Class.create(identifier, super, template)
   for k,v in pairs(template) do
     class.prototype[k] = v
   end
+
+  class.prototype.__prototype = {
+    class = class,
+    super = super
+  }
   return class
 end
 
@@ -114,6 +119,13 @@ function Class.instantiate(class, ...)
   setmetatable(instance, metatable)
   instance:constructor(...)
   return instance
+end
+
+function Class.is_class(obj)
+  if (obj == nil) then
+    return false
+  end
+  return obj.prototype ~= nil
 end
 
 return Class
