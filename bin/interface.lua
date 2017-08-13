@@ -17,4 +17,13 @@ function Interface.create(identifier, super, template)
   return self
 end
 
+function Interface.is_interface(obj)
+  for k,v in pairs(obj) do
+    if (type(v) ~= "string") then
+      return false
+    end
+  end
+  return true
+end
+
 return Interface
