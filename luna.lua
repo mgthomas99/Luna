@@ -8,6 +8,32 @@ local Interface = require("Luna/bin/interface")
 local Luna = {}
 Luna = {
 
+  Utils = {
+    table = {
+      assign = function(target, ...)
+        local sources = {...}
+        for i,v in ipairs(sources) do
+          Luna.Utils.table.copy(v, target)
+        end
+        return target
+      end,
+      clone = function(source)
+        local copy = {}
+        for k,v in pairs(source) do
+          copy[k] = v
+        end
+        return copy
+      end,
+      copy = function(source, target)
+        target = target or {}
+        for k,v in pairs(source) do
+          target[k] = v
+        end
+        return target
+      end
+    }
+  },
+
   --[[
     Copies the Luna function table into the global scope.
   ]]
