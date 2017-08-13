@@ -1,7 +1,4 @@
 
-local Object = require("Luna/bin/object")
-local Template = require("Luna/bin/template")
-
 --[[
   API for creating classes from Lua tables, and instantiating
   them to produce Objects.
@@ -48,12 +45,7 @@ local Class = {}
 ]]
 function Class.create(identifier, super, template)
   local class = {
-    name = identifier,
-    prototype = {
-      toString = function(self)
-        return "[Object " .. tostring(self) .. "]"
-      end
-    }
+    prototype = {}
   }
 
   if (super) then
@@ -64,7 +56,7 @@ function Class.create(identifier, super, template)
     end
   end
 
-  if (Template.has_static(template)) then
+  if (template.static) then
     for k,v in pairs(template.static) do
       class[k] = v
     end
@@ -114,11 +106,9 @@ function Class.instantiate(class, ...)
     return error("Cannot instantiate class without constructor!")
   end
 
-  local instance = Object.new()
-  local metatable = Object.assign(instance, getmetatable(class.prototype))
-  Object.assign(instance, class.prototype)
+  local instance = Luna.Utils.table.assign({}, class.prototype)
+  local metatable = Luna.Utils.table.assign({}, instance, getmetatable(class.prototype))
   setmetatable(instance, metatable)
-
   instance:constructor(...)
   return instance
 end
