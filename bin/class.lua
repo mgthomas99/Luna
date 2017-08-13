@@ -1,4 +1,6 @@
 
+local Template = require("Luna/bin/template")
+
 --[[
   API for creating classes from Lua tables, and instantiating
   them to produce Objects.
@@ -108,6 +110,7 @@ function Class.instantiate(class, ...)
 
   local instance = Luna.Utils.table.assign({}, class.prototype)
   local metatable = Luna.Utils.table.assign({}, instance, getmetatable(class.prototype))
+  Template.strip_metatable(metatable)
   setmetatable(instance, metatable)
   instance:constructor(...)
   return instance

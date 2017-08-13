@@ -11,6 +11,20 @@
 local Template = {}
 
 --[[
+  Removes all elements from a table that are not
+  metamethods by checking if their key begins with
+  "__".
+]]
+function Template.strip_metatable(mt)
+  for k,v in pairs(mt) do
+    if (k:sub(1, 2) ~= "__") then
+      mt[k] = nil
+    end
+  end
+  return mt
+end
+
+--[[
   Removes any empty properties in `template`, such as
   empty 'static' tables.
 ]]
