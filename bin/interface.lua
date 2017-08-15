@@ -1,5 +1,12 @@
 
-local IsType = require("Luna/lib/is-type")
+local function is_type_name(name)
+  return name == "string" or
+         name == "number" or
+         name == "boolean" or
+         name == "function" or
+         name == "table"
+end
+
 local Interface = {}
 
 function Interface.create(identifier, super, template)
@@ -8,7 +15,7 @@ function Interface.create(identifier, super, template)
   for k,v in pairs(template) do
     if (type(v) ~= "string") then
       return error("An interface property must be a string!")
-    elseif (not IsType.is_type_name(v)) then
+    elseif (not is_type_name(v)) then
       return error("Interface property must be the name of a type!")
     end
     self[k] = v
