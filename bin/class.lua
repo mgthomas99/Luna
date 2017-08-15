@@ -77,7 +77,7 @@ end
 
 function Class.implements(class, interface)
   for k,v in pairs(interface) do
-    if (type(class[k]) ~= v) then
+    if (type(class.prototype[k]) ~= v) then
       return error("Incompatible types: interface " ..
           "defines property '" .. k .. "' as type " ..
           v .. " but it is implemented as type " .. type(class[k]) .. "!")
